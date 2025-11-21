@@ -1,0 +1,67 @@
+// schema.prisma
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl-arm64-openssl-1.1.x"]
+}
+
+model Account {
+  id        Int      @id @default(autoincrement())
+  type      String   // "KTX" | "SRT"
+  username  String   // 코레일/SRT ID
+  password  String   // 암호화된 비밀번호 (필수)
+  tasks     Task[]
+
+  @@unique([type, username]) // Ensure unique accounts per type/username
+}
+
+model Task {
+  id             Int       @id @default(autoincrement())
+  accountId      Int
+  account        Account   @relation(fields: [accountId], references: [id])
+  
+  // 검색 조건
+  depStation     String    // 출발역 (서울, 수서 등)
+  arrStation     String    // 도착역 (부산, 동대구 등)
+  date           String    // 날짜 (YYYYMMDD)
+  timeFrom       String    // 검색 시작 시간 (HHMMSS)
+  timeTo         String?    // 검색 종료 시간 (HHMMSS) - Optional now
+  passengers     Int       @default(1)
+
+  // 선택된 기차 정보 (매크로가 이 기차를 예약 시도)
+  selectedTrainNo       String?
+  selectedTrainType     String?
+  selectedDepTime       String?
+  selectedArrTime       String?
+  selectedTrainClass    String? // e.g., 일반실, 특실
+  selectedTrainId       String? // Unique identifier from korail2/SRTrain library
+  
+  // 매크로 설정
+  interval       Int       @default(3) // 조회 간격 (초)
+  isActive       Boolean   @default(true)
+  status         String    // "PENDING", "RUNNING", "SUCCESS", "FAILED", "STOPPED"
+  
+  // 결과
+  bookedDetail   String?   // 예약 성공 시 상세 정보 (JSON 문자열 권장)
+  
+  logs           Log[]
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  @@index([accountId]) // Index for faster lookups based on account
+  @@index([status])    // Index for faster lookup of tasks by status (PENDING, RUNNING)
+}
+
+model Log {
+  id        Int      @id @default(autoincrement())
+  taskId    Int
+  task      Task     @relation(fields: [taskId], references: [id])
+  level     String   // "INFO", "ERROR", "SUCCESS"
+  message   String
+  createdAt DateTime @default(now())
+}

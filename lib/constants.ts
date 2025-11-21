@@ -1,0 +1,78 @@
+// web/lib/constants.ts
+
+export const KTX_STATIONS = [
+  { name: '서울', code: '0001' },
+  { name: '용산', code: '0002' },
+  { name: '영등포', code: '0003' },
+  { name: '수원', code: '0004' },
+  { name: '광명', code: '0005' },
+  { name: '천안아산', code: '0006' },
+  { name: '오송', code: '0007' },
+  { name: '대전', code: '0008' },
+  { name: '서대전', code: '0009' },
+  { name: '김천(구미)', code: '0010' },
+  { name: '구미', code: '0011' },
+  { name: '동대구', code: '0012' },
+  { name: '서대구', code: '0013' },
+  { name: '경산', code: '0014' },
+  { name: '밀양', code: '0015' },
+  { name: '구포', code: '0016' },
+  { name: '부산', code: '0017' },
+  { name: '신경주', code: '0018' },
+  { name: '울산(통도사)', code: '0019' },
+  { name: '포항', code: '0020' },
+  { name: '행신', code: '0021' },
+  { name: '계룡', code: '0022' },
+  { name: '논산', code: '0023' },
+  { name: '익산', code: '0024' },
+  { name: '정읍', code: '0025' },
+  { name: '광주송정', code: '0026' },
+  { name: '나주', code: '0027' },
+  { name: '목포', code: '0028' },
+  { name: '전주', code: '0029' },
+  { name: '남원', code: '0030' },
+  { name: '순천', code: '0031' },
+  { name: '여수EXPO', code: '0032' },
+  { name: '여천', code: '0033' },
+  { name: '진주', code: '0034' },
+  { name: '마산', code: '0035' },
+  { name: '창원', code: '0036' },
+  { name: '창원중앙', code: '0037' },
+  { name: '진영', code: '0038' },
+  { name: '강릉', code: '0039' },
+  { name: '진부', code: '0040' },
+  { name: '평창', code: '0041' },
+  { name: '둔내', code: '0042' },
+  { name: '횡성', code: '0043' },
+  { name: '양평', code: '0044' },
+  { name: '공주', code: '0045' },
+];
+
+export const SRT_STATIONS = [
+  { name: '수서', code: '0551' },
+  { name: '동탄', code: '0552' },
+  { name: '평택지제', code: '0553' },
+  { name: '천안아산', code: '0006' },
+  { name: '오송', code: '0007' },
+  { name: '대전', code: '0008' },
+  { name: '김천(구미)', code: '0010' },
+  { name: '동대구', code: '0012' },
+  { name: '서대구', code: '0013' },
+  { name: '부산', code: '0017' },
+  { name: '신경주', code: '0018' },
+  { name: '울산(통도사)', code: '0019' },
+  { name: '포항', code: '0020' },
+  { name: '공주', code: '0045' },
+  { name: '익산', code: '0024' },
+  { name: '정읍', code: '0025' },
+  { name: '광주송정', code: '0026' },
+  { name: '나주', code: '0027' },
+  { name: '목포', code: '0028' },
+];
+
+export const TIMES = Array.from({ length: 48 }, (_, i) => {
+    const hour = Math.floor(i / 2);
+    const minute = i % 2 === 0 ? '00' : '30';
+    const formattedHour = hour.toString().padStart(2, '0');
+    return `${formattedHour}:${minute}`;
+});
